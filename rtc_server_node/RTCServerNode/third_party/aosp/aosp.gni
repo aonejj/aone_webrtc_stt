@@ -1,0 +1,57 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+aosp_root = get_path_info(".", "abspath")
+aosp_configs = [ aosp_root + ":AOSPConfig" ]
+aosp_link_configs = [ aosp_root + ":AOSPLinkConfig" ]
+
+
+set_defaults("rtc_aosp_source_set") {
+    configs = aosp_configs
+}
+
+set_defaults("rtc_aosp_shared_library") {
+    configs = aosp_link_configs
+}
+
+set_defaults("rtc_aosp_static_library") {
+    configs = aosp_link_configs
+}
+
+template("rtc_aosp_source_set") {
+  source_set(target_name) {
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                            "configs", 
+                           ])
+    if (defined(invoker.configs)) {
+      configs += invoker.configs
+    }
+  }
+}
+
+template("rtc_aosp_shared_library") {
+  shared_library(target_name) {
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                             "configs",
+                           ])
+    if (defined(invoker.configs)) {
+      configs += invoker.configs
+    }
+  }
+}
+
+template("rtc_aosp_static_library") {
+  static_library(target_name) {
+    forward_variables_from(invoker,
+                           "*",
+                           [
+                             "configs",
+                           ])
+    if (defined(invoker.configs)) {
+      configs += invoker.configs
+    }
+  }
+}

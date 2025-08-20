@@ -1,0 +1,23 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+rtc_server_node_exec_root = get_path_info(".", "abspath")
+rtc_server_node_exec_config = [ rtc_server_node_exec_root + ":RTCServerNodeExecConfig" ]
+rtc_server_node_exec_execConfig = [ rtc_server_node_exec_root + ":RTCServerNodeExec_ExecConfig" ]
+
+set_defaults("rtc_server_node_exec_executable") {
+    configs = rtc_server_node_exec_config
+    configs += rtc_server_node_exec_execConfig
+}
+
+template("rtc_server_node_exec_executable") {
+  executable(target_name) {
+    forward_variables_from(invoker,
+                            "*",
+                           [
+                            "configs", 
+                           ])
+    if (defined(invoker.configs)) {
+      configs += invoker.configs
+    }
+  }
+}

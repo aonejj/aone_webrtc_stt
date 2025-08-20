@@ -1,0 +1,63 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+import("../rtc_server_node.gni")
+
+group("rtc_server_node") {
+    deps = [
+        ":RTCIceServerInfo",
+        ":RTCServerNode",
+        ":RTCServerNodeListener",
+        ":RTCSignalingNodeSession",
+        ":RTCSignalingNodeSessionListener",
+    ]
+}
+
+rtc_server_node_source_set("RTCIceServerInfo") {
+    public = [
+        "RTCIceServerInfo.h",
+    ]
+}
+
+rtc_server_node_source_set("RTCServerNode") {
+    sources = [
+        "RTCServerNode.cc",
+        "RTCServerNode.h",
+    ]
+
+    deps = [
+        ":RTCSignalingNodeSessionListener",
+        ":RTCSignalingNodeSession",
+        ":RTCServerNodeListener",
+        "../rtc_peer:RTCPeerListener",
+        "../rtc_peer:RTCPeerInterface",
+        "../rtc_peer:RTCPeerFactory",
+        "../utils:AMessageWaitImpl",
+        "../rtc_zmq_client:RTCVADZmqClient",
+    ]
+}
+
+rtc_server_node_source_set("RTCServerNodeListener") {
+    public = [
+        "RTCServerNodeListener.h",
+    ]
+}
+
+rtc_server_node_source_set("RTCSignalingNodeSession") {
+    sources = [
+        "RTCSignalingNodeSession.cc",
+        "RTCSignalingNodeSession.h",
+    ]
+
+    deps = [
+        ":RTCIceServerInfo",
+        ":RTCSignalingNodeSessionListener",
+        "../signaling_session:RTCWebSocketClientListener",
+        "../signaling_session:RTCWebSocketClient",
+    ]
+}
+
+rtc_server_node_source_set("RTCSignalingNodeSessionListener") {
+    public = [
+        "RTCSignalingNodeSessionListener.h",
+    ]
+}

@@ -1,0 +1,90 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+import("rtc_server_node.gni")
+
+group("RTCServerNode") {
+    deps = [
+        "third_party",
+        ":librtc_server_node",
+    ]
+}
+
+config("RTCServerNodeConfig") {
+    defines = [
+        "DCHECK_ALWAYS_ON",
+        "__unused=__attribute__((unused))",
+    ]
+
+    if(is_linux) {
+        defines += [
+            "WEBRTC_LINUX",
+            "WEBRTC_POSIX",
+        ]
+    }
+
+    include_dirs = [
+        ".",
+        "../RTCVoiceSdk/include",
+        "./third_party/aosp/10/system/core/include",
+        "./third_party/aosp/10/frameworks/av/media/libstagefright/include",
+        "./third_party/boringssl/include",
+        "./third_party/libwebsockets/include",
+        "./third_party/libjansson/include",
+        "./third_party/libzmq/include",
+        "./third_party/librnnoise/include",
+        "rtc_server_node",
+        "signaling_session",
+    ]
+    
+    cflags_cc = [
+        "-Wno-multichar",
+        "-fno-use-cxa-atexit",
+    ]
+
+} 
+
+config("RTCServerNodeLinkConfig") {
+    ldflags = [
+        "-Wl,-rpath=\$ORIGIN",        
+        "-Wl,-Bsymbolic",
+        "-Wl,--no-undefined",
+    ]
+
+    lib_dirs = [
+        "$root_out_dir",
+    ]
+
+    libs = [
+        "rtc_peerconnection",
+        "rtc_voice_api",
+        "zmq",
+    ]     
+}
+
+config("RTCServerNodeStaticLinkConfig") {
+  libs = [
+    rebase_path("./third_party/libwebsockets/lib/libwebsockets.a", "."),
+    rebase_path("./third_party/boringssl/lib_static/ssl/libssl.a", "."),
+    rebase_path("./third_party/boringssl/lib_static/crypto/libcrypto.a", "."),
+    rebase_path("./third_party/libjansson/lib/libjansson.a", "."),
+    rebase_path("./third_party/librnnoise/lib/librnnoise.a", "."),
+    "$root_out_dir/static/libaosp_system.a",
+    "$root_out_dir/static/libaosp_stagefright.a",
+  ]
+}
+
+rtc_server_node_shared_library("librtc_server_node") {
+    deps = [
+        "signaling_session",
+        "rtc_server_node",
+        "rtc_server_node_controller",
+        "rtc_peer",
+        "rtc_voice_activity",
+        "rtc_zmq_client",
+        "utils",
+    ]
+
+    data_deps = [
+        "../RTCVoiceSdk",
+    ]        
+}

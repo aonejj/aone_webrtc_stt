@@ -1,0 +1,16 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+group("RTCVoiceSdk") {
+    deps = [
+        ":copy_voice_libs",
+    ]
+}
+
+copy("copy_voice_libs") {
+  sources = [
+    "lib/librtc_peerconnection.so",
+    "lib/librtc_voice_api.so",
+  ]
+
+  outputs = [ "$root_out_dir/{{source_file_part}}" ] 
+}

@@ -1,0 +1,26 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+group("libzmq") {
+    deps = [
+        ":copy_libzmq",
+        ":generate_symlinks",
+    ]
+}
+
+copy("copy_libzmq") {
+  sources = [
+    "lib/libzmq.so.5.2.6",
+  ]
+
+  outputs = [ "$root_out_dir/{{source_file_part}}" ] 
+}
+
+action("generate_symlinks") {
+  script = "libzmq_generate_symlinks.py"
+  args = [ rebase_path("$root_out_dir", root_build_dir), "5.2.6" ] 
+  outputs = [
+    "$root_out_dir/libzmq.so",
+    "$root_out_dir/libzmq.so.5",
+  ]
+  deps = [ ":copy_libzmq" ]
+}

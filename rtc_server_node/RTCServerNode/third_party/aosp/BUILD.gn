@@ -1,0 +1,50 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+group("aosp") {
+    deps = [
+        "10/system",
+        "10/frameworks",
+    ]
+}
+
+config("AOSPConfig") {
+    include_dirs = [
+        "./10/system/core/include",
+        "./10/system/core/base/include",
+        "./10/system/core/libutils/include",
+        "./10/system/core/libcutils/include",
+        "./10/system/core/liblog/include",
+        "./10/system/core/libprocessgroup/include",
+        "./10/system/media/audio/include",
+        "./10/system/media/audio_utils/include",
+        "./10/frameworks/av/include",
+        "./10/frameworks/av/include/media/stagefright/foundation",
+        "./10/frameworks/native/headers/media_plugin",
+        "./10/frameworks/av/media/ndk/include",
+    ]
+
+    cflags_cc = [
+        "-Wno-multichar",
+        "-fno-use-cxa-atexit",
+        "-fPIC"
+    ]
+
+    defines = [ 
+        "_LARGEFILE64_SOURCE",
+        "FAKE_LOG_DEVICE",
+        "AUDIO_NO_SYSTEM_DECLARATIONS",
+        "NO_IMEMORY",
+        "__unused=__attribute__((unused))",
+    ]
+}
+
+config("AOSPLinkConfig") {
+    ldflags = [
+        "-Wl,-Bsymbolic",
+        "-Wl,--no-undefined",
+    ]
+    
+    libs = [
+        "pthread",
+    ]
+}

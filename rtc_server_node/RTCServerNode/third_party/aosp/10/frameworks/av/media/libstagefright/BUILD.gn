@@ -1,0 +1,64 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+import("../../../../../aosp.gni")
+
+group("libstagefright") {
+    deps = [
+        ":aosp_stagefright_static",
+    ]
+}
+
+rtc_aosp_source_set("aosp_stagefright_sources") {
+    sources = [
+        "foundation/AAtomizer.cpp",
+        "foundation/ABitReader.cpp",
+        "foundation/ABuffer.cpp",
+        "foundation/ADebug.cpp",
+        "foundation/AHandler.cpp",
+        "foundation/ALooper.cpp",
+        "foundation/ALooperRoster.cpp",
+        "foundation/AMessage.cpp",
+        "foundation/AString.cpp",
+        "foundation/AStringUtils.cpp",
+        "foundation/AudioPresentationInfo.cpp",
+        "foundation/avc_utils.cpp",
+        "foundation/base64.cpp",
+        "foundation/ByteUtils.cpp",
+        "foundation/hexdump.cpp",
+        "foundation/MediaBuffer.cpp",
+        "foundation/MediaBufferBase.cpp",
+        "foundation/MediaBufferGroup.cpp",
+        "foundation/MediaDefs.cpp",
+        "foundation/MediaKeys.cpp",
+        "foundation/MetaData.cpp",
+        "foundation/MetaDataBase.cpp",
+        "foundation/OpusHeader.cpp",
+        "../libmedia/NdkMediaErrorPriv.cpp",
+        "../libmedia/NdkMediaFormatPriv.cpp",
+        "../libmedia/BufferingSettings.cpp",
+        "../libmedia/MediaCodecBuffer.cpp",
+        "MediaTrack.cpp",
+        "MediaSource.cpp",
+        "Utils.cpp",
+        "ESDS.cpp",
+        "DataConverter.cpp",
+        "HevcUtils.cpp",
+    ]
+}
+
+rtc_aosp_shared_library("aosp_stagefright") {
+    deps = [
+        "../../../../system:aosp_system",
+        ":aosp_stagefright_sources",
+    ]
+}
+
+rtc_aosp_static_library("aosp_stagefright_static") {
+    output_name = "aosp_stagefright"
+    output_dir = "$root_out_dir/static"
+    public_deps = [
+        "../../../../system:aosp_system_sources",
+        ":aosp_stagefright_sources",
+    ]
+    complete_static_lib = true
+}

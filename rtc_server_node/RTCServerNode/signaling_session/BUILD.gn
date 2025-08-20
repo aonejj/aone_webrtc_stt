@@ -1,0 +1,27 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+import("../rtc_server_node.gni")
+
+group("signaling_session") {
+    deps = [
+        ":RTCWebSocketClient",
+        ":RTCWebSocketClientListener",
+    ]
+}
+
+rtc_server_node_source_set("RTCWebSocketClient") {
+    sources = [
+        "RTCWebSocketClient.cc",
+        "RTCWebSocketClient.h",
+    ]
+
+    deps = [
+        ":RTCWebSocketClientListener",
+    ]
+}
+
+rtc_server_node_source_set("RTCWebSocketClientListener") {
+    public = [
+        "RTCWebSocketClientListener.h"
+    ]
+}

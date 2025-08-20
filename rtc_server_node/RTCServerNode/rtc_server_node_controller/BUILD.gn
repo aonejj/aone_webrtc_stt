@@ -1,0 +1,20 @@
+import("../rtc_server_node.gni")
+
+group("rtc_server_node_controller") {
+    deps = [
+        ":RTCServerNodeController",
+    ]
+}
+
+rtc_server_node_source_set("RTCServerNodeController") {
+    sources = [
+        "RTCServerNodeController.cc",
+        "RTCServerNodeController.h",
+    ]
+
+    deps = [
+        "../rtc_server_node:RTCServerNodeListener",
+        "../rtc_server_node:RTCServerNode",
+        "../signaling_session:RTCWebSocketClient",
+    ]
+}

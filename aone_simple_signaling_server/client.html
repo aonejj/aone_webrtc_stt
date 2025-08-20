@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Signaling Client (Browser)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; }
+        .controls, .messages { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], select, textarea {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button.connect { background-color: #28a745; color: white; }
+        button.send { background-color: #007bff; color: white; }
+        button.disconnect { background-color: #dc3545; color: white; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        #messageLog {
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap; /* 줄바꿈 유지 */
+            word-break: break-all; /* 긴 단어 강제 줄바꿈 */
+        }
+        .log-entry { margin-bottom: 5px; }
+        .log-info { color: #0056b3; }
+        .log-error { color: #dc3545; font-weight: bold; }
+        .log-sent { color: #28a745; }
+        .log-received { color: #6f42c1; }
+        .log-received-json { color: #6f42c1; background-color: #f0e6fa; padding: 5px; border-radius: 3px; } /* JSON 수신 메시지 스타일 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebSocket 시그널링 클라이언트 (브라우저)</h1>
+
+        <div class="controls">
+            <label for="serverUrl">서버 URL:</label>
+            <input type="text" id="serverUrl" value="ws://192.168.0.22:8080">
+
+            <label for="clientType">클라이언트 유형:</label>
+            <select id="clientType">
+                <option value="peer">Peer (ws://192.168.0.22:8080/peer)</option>
+                <option value="node">SFU Node (ws://192.168.0.22:8080/node)</option>
+            </select>
+
+            <button id="connectBtn" class="connect">연결</button>
+            <button id="disconnectBtn" class="disconnect" disabled>연결 해제</button>
+
+            <hr>
+
+            <label for="messageInput">메시지 (JSON):</label>
+            <textarea id="messageInput" rows="4">{ "type": "regist", "payload": "Hello from Browser Client!" }</textarea>
+            <button id="sendBtn" class="send" disabled>메시지 전송</button>
+        </div>
+
+        <div class="messages">
+            <h2>로그</h2>
+            <div id="messageLog"></div>
+        </div>
+    </div>
+
+    <script>
+        const serverUrlInput = document.getElementById('serverUrl');
+        const clientTypeSelect = document.getElementById('clientType');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const messageLog = document.getElementById('messageLog');
+
+        let ws = null; // WebSocket 객체
+
+        // 로그를 화면에 추가하는 함수
+        function logMessage(message, type = 'info', data = null) {
+            const div = document.createElement('div');
+            div.className = `log-entry log-${type}`;
+            
+            let displayMessage = `[${new Date().toLocaleTimeString()}] ${message}`;
+
+            if (data !== null) {
+                // 데이터가 JSON 객체이면 JSON.stringify로 예쁘게 포맷팅
+                // 두 번째 인자 null, 세 번째 인자 2는 들여쓰기 2칸을 의미합니다.
+                displayMessage += `\n${JSON.stringify(data, null, 2)}`;
+                div.classList.add('log-received-json'); // JSON 메시지용 추가 스타일
+            }
+
+            div.textContent = displayMessage;
+            messageLog.appendChild(div);
+            messageLog.scrollTop = messageLog.scrollHeight; // 스크롤을 맨 아래로
+        }
+
+        // 버튼 상태 업데이트
+        function updateButtonStates() {
+            const connected = ws && ws.readyState === WebSocket.OPEN;
+            connectBtn.disabled = connected;
+            disconnectBtn.disabled = !connected;
+            sendBtn.disabled = !connected;
+            messageInput.disabled = !connected;
+        }
+
+        // 연결 버튼 클릭 핸들러
+        connectBtn.onclick = () => {
+            const baseUrl = serverUrlInput.value;
+            const clientType = clientTypeSelect.value;
+            const url = `${baseUrl}/${clientType}`; // URL 경로에 클라이언트 유형 포함
+
+            logMessage(`Connecting to ${url}...`, 'info');
+            
+            try {
+                ws = new WebSocket(url); // WebSocket 인스턴스 생성
+            } catch (error) {
+                logMessage(`Connection error: ${error.message}`, 'error');
+                updateButtonStates();
+                return;
+            }
+
+            ws.onopen = (event) => {
+                logMessage(`Connected to signaling server as ${clientType}.`, 'info');
+                updateButtonStates();
+                // 연결 성공 시, 초기 'regist' 메시지 전송 예시 (선택 사항)
+//                try {
+//                    const initialMessage = JSON.parse(messageInput.value);
+//                    ws.send(JSON.stringify(initialMessage));
+//                    logMessage(`Sent initial message: ${JSON.stringify(initialMessage)}`, 'sent');
+//                } catch (e) {
+//                    logMessage(`Error sending initial message (invalid JSON?): ${e.message}`, 'error');
+//                }
+            };
+
+            // 서버로부터 메시지 수신 시
+            ws.onmessage = (event) => {
+                const receivedData = event.data;
+                try {
+                    const parsedJson = JSON.parse(receivedData);
+                    logMessage(`Received JSON message:`, 'received', parsedJson); // JSON 객체와 함께 로그
+                    console.log('Received JSON object:', parsedJson); // 개발자 콘솔에도 객체로 출력
+                } catch (e) {
+                    logMessage(`Received non-JSON message: ${receivedData}`, 'received'); // 파싱 실패 시 원본 문자열 로그
+                    console.error('Failed to parse received message as JSON:', receivedData, e);
+                }
+            };
+
+            ws.onclose = (event) => {
+                logMessage(`Disconnected. Code: ${event.code}, Reason: ${event.reason || 'N/A'}`, 'info');
+                ws = null; // 연결 끊어졌으니 객체 참조 제거
+                updateButtonStates();
+            };
+
+            ws.onerror = (error) => {
+                logMessage(`WebSocket error: ${error.message}`, 'error');
+                updateButtonStates();
+            };
+        };
+
+        // 연결 해제 버튼 클릭 핸들러
+        disconnectBtn.onclick = () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.close(1000, 'Client initiated disconnect');
+                logMessage('Disconnecting...', 'info');
+            }
+        };
+
+        // 메시지 전송 버튼 클릭 핸들러
+        sendBtn.onclick = () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = messageInput.value;
+                try {
+                    // 전송 전 JSON 유효성 검사
+                    const parsed = JSON.parse(message); 
+                    ws.send(message);
+                    logMessage(`Sent: ${JSON.stringify(parsed, null, 2)}`, 'sent'); // 전송 메시지도 보기 좋게
+                } catch (e) {
+                    logMessage(`Invalid JSON in input: ${e.message}`, 'error');
+                }
+            } else {
+                logMessage('Not connected to send message.', 'error');
+            }
+        };
+
+        // 초기 버튼 상태 설정
+        updateButtonStates();
+    </script>
+</body>
+</html>

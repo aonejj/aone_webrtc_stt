@@ -1,0 +1,52 @@
+# Copyright (c) 2024 The AONE SFU project authors
+import("../rtc_server_node.gni")
+
+group("rtc_peer") {
+    deps = [
+        ":RTCPeerListener",
+        ":RTCPeerInterface",
+        ":RTCPeerFactory",
+        ":RTCPeer",
+    ]
+}
+
+rtc_server_node_source_set("RTCPeerListener") {
+    public = [
+        "RTCPeerListener.h",
+    ]    
+}
+
+rtc_server_node_source_set("RTCPeerInterface") {
+    public = [
+        "RTCPeerInterface.h",
+    ]    
+}
+
+rtc_server_node_source_set("RTCPeerFactory") {
+    sources = [
+        "RTCPeerFactory.cc",
+        "RTCPeerFactory.h",
+    ]
+
+    deps = [
+        ":RTCPeerListener",
+        ":RTCPeerInterface",
+        ":RTCPeer",
+        "../rtc_server_node:RTCIceServerInfo",
+    ]       
+}
+
+rtc_server_node_source_set("RTCPeer") {
+    sources = [
+        "RTCPeer.cc",
+        "RTCPeer.h",
+    ]
+
+    deps = [
+        ":RTCPeerListener",
+        ":RTCPeerInterface",
+        "../rtc_server_node:RTCIceServerInfo",
+        "../rtc_voice_activity:RTCVadInterfaceInc",
+        "../utils:AMessageWaitImpl",
+    ]       
+}

@@ -1,0 +1,25 @@
+{
+  "name": "websocket_server_node",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@types/uuid": "^10.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.2"
+  }
+}

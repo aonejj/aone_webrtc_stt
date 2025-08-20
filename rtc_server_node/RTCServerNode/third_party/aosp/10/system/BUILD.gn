@@ -1,0 +1,96 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+import("../../aosp.gni")
+
+group("system") {
+    deps = [
+        ":aosp_system_static",
+    ]
+}
+
+rtc_aosp_source_set("aosp_system_sources") {
+    sources = [
+        "core/base/chrono_utils.cpp",
+        "core/base/cmsg.cpp",
+        "core/base/errors_unix.cpp",
+        "core/base/file.cpp",
+        "core/base/logging.cpp",
+        "core/base/mapped_file.cpp",
+        "core/base/parsenetaddress.cpp",
+        "core/base/quick_exit.cpp",
+        "core/base/stringprintf.cpp",
+        "core/base/strings.cpp",
+        "core/base/threads.cpp",
+        "core/libutils/FileMap.cpp",
+        "core/libutils/JenkinsHash.cpp",
+        "core/libutils/misc.cpp",
+        "core/libutils/NativeHandle.cpp",
+        "core/libutils/Printer.cpp",
+        "core/libutils/PropertyMap.cpp",
+        "core/libutils/RefBase.cpp",
+        "core/libutils/SharedBuffer.cpp",
+        "core/libutils/StopWatch.cpp",
+        "core/libutils/String8.cpp",
+        "core/libutils/String16.cpp",
+        "core/libutils/StrongPointer.cpp",
+        "core/libutils/SystemClock.cpp",
+        "core/libutils/Threads.cpp",
+        "core/libutils/Timers.cpp",
+        "core/libutils/Tokenizer.cpp",
+        "core/libutils/Unicode.cpp",
+        "core/libutils/VectorImpl.cpp",
+        "core/libcutils/native_handle.cpp",
+        "core/libcutils/sockets_unix.cpp",
+        "core/libcutils/socket_network_client_unix.cpp",
+        "core/libcutils/socket_local_server_unix.cpp",
+        "core/libcutils/socket_local_client_unix.cpp",
+        "core/libcutils/socket_inaddr_any_server_unix.cpp",
+        "core/libcutils/sockets.cpp",
+        "core/liblog/config_read.cpp",
+        "core/liblog/config_write.cpp",
+        "core/liblog/fake_log_device.cpp",
+        "core/liblog/fake_writer.cpp",
+        "core/liblog/log_event_list.cpp",
+        "core/liblog/log_event_write.cpp",
+        "core/liblog/log_time.cpp",
+        "core/liblog/logger_lock.cpp",
+        "core/liblog/logger_name.cpp",
+        "core/liblog/logger_read.cpp",
+        "core/liblog/logger_write.cpp",
+        "core/liblog/logprint.cpp",
+        "core/liblog/pmsg_reader.cpp",
+        "core/liblog/pmsg_writer.cpp",
+        "core/liblog/stderr_write.cpp",
+        "core/libprocessgroup/sched_policy.cpp",
+        "media/audio_utils/primitives.c",
+    ]
+}
+
+rtc_aosp_shared_library("aosp_system") {
+    deps = [
+        ":aosp_system_sources",
+    ]
+}
+
+rtc_aosp_static_library("aosp_system_static") {
+    output_name = "aosp_system"
+    output_dir = "$root_out_dir/static"
+    public_deps = [
+        ":aosp_system_sources",
+    ]
+    complete_static_lib = true
+}
+
+executable("aosp_system_unit_test") {
+    sources = [
+        "../_system_test_unit/system_core_test.cpp",
+    ]
+
+    include_dirs = [
+        "core/include",
+    ]
+
+    deps = [
+        ":aosp_system",
+    ]
+}

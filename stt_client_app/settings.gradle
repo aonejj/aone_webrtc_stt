@@ -1,0 +1,2 @@
+rootProject.name = "llm_client_app"
+include ':app'

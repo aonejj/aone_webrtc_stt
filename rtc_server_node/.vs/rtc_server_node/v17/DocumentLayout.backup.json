@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\signaling_session\\RTCWebSocketClient.cc||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|solutionrelative:RTCServerNode\\signaling_session\\RTCWebSocketClient.cc||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCVoiceSdk\\include\\RTCAOneVoiceClient.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|solutionrelative:RTCVoiceSdk\\include\\RTCAOneVoiceClient.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{070BB53A-23BF-461A-AEDE-D3A1514176F3}|rtc_server_node.vcxproj|solutionrelative:RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 155,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RTCWebSocketClient.cc",
+              "DocumentMoniker": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\signaling_session\\RTCWebSocketClient.cc",
+              "RelativeDocumentMoniker": "RTCServerNode\\signaling_session\\RTCWebSocketClient.cc",
+              "ToolTip": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\signaling_session\\RTCWebSocketClient.cc",
+              "RelativeToolTip": "RTCServerNode\\signaling_session\\RTCWebSocketClient.cc",
+              "ViewState": "AgIAADIBAAAAAAAAAAAAAEUBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-20T14:02:47.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RTCAOneVoiceClient.h",
+              "DocumentMoniker": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCVoiceSdk\\include\\RTCAOneVoiceClient.h",
+              "RelativeDocumentMoniker": "RTCVoiceSdk\\include\\RTCAOneVoiceClient.h",
+              "ToolTip": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCVoiceSdk\\include\\RTCAOneVoiceClient.h",
+              "RelativeToolTip": "RTCVoiceSdk\\include\\RTCAOneVoiceClient.h",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-20T13:59:03.194Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RTCIceServerInfo.h",
+              "DocumentMoniker": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h",
+              "RelativeDocumentMoniker": "RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h",
+              "ToolTip": "Z:\\aone_works\\aone_webrtc_stt\\rtc_server_node\\RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h",
+              "RelativeToolTip": "RTCServerNode\\rtc_server_node\\RTCIceServerInfo.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-20T13:57:38.672Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

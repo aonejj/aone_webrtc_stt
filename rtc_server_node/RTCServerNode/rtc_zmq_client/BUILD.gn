@@ -1,0 +1,20 @@
+# Copyright (c) 2024 The AONE SFU project authors
+import("../rtc_server_node.gni")
+
+
+group("rtc_zmq_client") {
+    deps = [
+        ":RTCVADZmqClient",
+    ]
+}
+
+rtc_server_node_source_set("RTCVADZmqClient") {
+    sources = [
+        "RTCVADZmqClient.cc",
+        "RTCVADZmqClient.h",
+    ]
+
+    deps = [
+        "../utils:AMessageWaitImpl",
+    ]
+}

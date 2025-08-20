@@ -1,0 +1,55 @@
+# Copyright (c) 2024 The AONE SFU project authors
+import("../rtc_server_node.gni")
+
+group("rtc_voice_activity") {
+    deps = [
+        ":RTCVadInterface",
+        ":RTCLegacyVad",
+        ":RTCRNNoiseVad",
+    ]    
+}
+
+rtc_server_node_source_set("RTCVadInterfaceInc") {
+    public = [
+        "RTCVadInterface.h",
+    ]
+}
+
+rtc_server_node_source_set("RTCVadInterface") {
+    sources = [
+        "RTCVadInterface.cc",
+    ]
+
+    deps = [
+        ":RTCVadInterfaceInc",
+        ":RTCLegacyVad",
+         ":RTCRNNoiseVad",
+        "../rtc_peer:RTCPeerInterface",
+    ]
+}
+
+rtc_server_node_source_set("RTCLegacyVad") {
+    sources = [
+        "RTCLegacyVad.cc",
+        "RTCLegacyVad.h",
+    ]
+
+    deps = [
+        ":RTCVadInterfaceInc",
+        "../utils:RTCUtils",
+        "../rtc_peer:RTCPeerInterface",
+    ]
+}
+
+rtc_server_node_source_set("RTCRNNoiseVad") {
+    sources = [
+        "RTCRNNoiseVad.cc",
+        "RTCRNNoiseVad.h",
+    ]
+
+    deps = [
+        ":RTCVadInterfaceInc",
+        "../utils:RTCUtils",
+        "../rtc_peer:RTCPeerInterface",
+    ]
+}

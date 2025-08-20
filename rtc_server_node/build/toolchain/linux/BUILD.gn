@@ -1,0 +1,40 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+import("//build/toolchain/toolchain.gni")
+
+clang_toolchain("clang_x86") {
+  # Output linker map files for binary size analysis.
+
+  cc = "clang"
+  cxx = "clang++"
+
+  ld = cxx
+  ar = "llvm-ar"
+}
+
+clang_toolchain("clang_x64") {
+  # Output linker map files for binary size analysis.
+
+  cc = "clang"
+  cxx = "clang++"
+
+  ld = cxx
+  ar = "llvm-ar"
+}
+
+
+gcc_toolchain("x86") {
+  cc = "gcc"
+  cxx = "g++"
+
+  ar = "ar"
+  ld = cxx
+}
+
+gcc_toolchain("x64") {
+  cc = "gcc"
+  cxx = "g++"
+
+  ar = "ar"
+  ld = cxx
+}

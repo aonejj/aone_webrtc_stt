@@ -1,0 +1,28 @@
+# Copyright (c) 2024 The AONE SFU project authors.
+
+import("../rtc_server_node.gni")
+
+group("utils") {
+    deps = [
+        ":AMessageWaitImpl",
+        ":RTCUtils",
+    ]
+}
+
+rtc_server_node_source_set("AMessageWaitImpl") {
+    sources = [
+        "AMessageWaitImpl.cc",
+        "AMessageWaitImpl.h",
+    ]
+}
+
+rtc_server_node_source_set("RTCUtils") {
+    sources = [
+        "RTCUtils.cc",
+        "RTCUtils.h",
+    ]
+
+    deps = [
+       "../rtc_voice_activity:RTCVadInterfaceInc",
+    ]
+}

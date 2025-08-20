@@ -1,0 +1,7 @@
+# Copyright (c) 2024 The AONE SFU project authors
+
+group("frameworks") {
+    deps = [
+        "av/media/libstagefright",
+    ]
+}

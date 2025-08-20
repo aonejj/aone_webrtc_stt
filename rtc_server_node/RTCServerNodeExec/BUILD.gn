@@ -1,0 +1,45 @@
+# Copyright (c) 2024 The AONE SFU project authors
+import("rtc_server_node_exec.gni")
+
+group("RTCServerNodeExec") {
+    deps = [
+        ":RTCServerNodeExecute",
+    ]
+}
+
+config("RTCServerNodeExecConfig") {
+    cflags_cc = [
+        "-Wno-multichar",
+        "-fno-use-cxa-atexit",
+    ]
+}
+
+config("RTCServerNodeExec_ExecConfig") {
+    ldflags = [
+        "-Wl,-rpath=\$ORIGIN",
+        "-Wl,-Bsymbolic",
+        "-Wl,--no-undefined",
+    ]
+
+    lib_dirs = [
+        "$root_out_dir",
+    ]
+
+    libs = [
+            "rtc_peerconnection",
+            "rtc_voice_api",
+            "rtc_server_node",
+            "zmq",
+    ]  
+}
+
+rtc_server_node_exec_executable("RTCServerNodeExecute") {
+    sources = [
+        "RTCServerNodeExec.cc",
+    ]
+
+    deps = [
+        "../RTCServerNode/rtc_server_node_controller:RTCServerNodeController",
+         "../RTCServerNode:RTCServerNode",
+    ]
+}
