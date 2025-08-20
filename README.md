@@ -52,17 +52,22 @@ For this pilot, transcription results are printed to the console only.
 ---
 
 ## Architecture
-
-graph TD
-    Client[Client (WebRTC)] -->|SDP/ICE| Signaling[aone_simple_signaling_server (TypeScript)]
-    Signaling --> RTCServer[RTCServerNode (C++17)]
-    RTCServer --> RTCPeer[RTCPeer (C++17)]
-    RTCPeer --> Voice[RTCVoiceSDK (C++17)\n(Opus → PCM callback)]
-    RTCPeer --> Noise[RNNoise (Noise Suppression + VAD)]
-    RTCPeer --> STT[aone_simple_stt_server (Python, faster-whisper)]
-
-
-
+Client (WebRTC)
+    │
+    ▼
+aone_simple_signaling_server (TypeScript)
+    │  Signaling (SDP / ICE)
+    ▼
+RTCServerNode (C++17)
+    │  Manages multiple RTCPeers
+    ▼
+RTCPeer (C++17)
+    ├─▶ RTCVoiceSDK (C++17)
+    │      │  Manages RTCPeerConnection
+    │      │  Decodes Opus RTP → PCM callback
+    ├─▶ RNNoise (Noise Suppression + VAD)
+    └─▶ aone_simple_stt_server (Python, faster-whisper)
+           │  Receives PCM for real-time Speech-to-Text (STT)
 
 ## Data Flow
 1. Client connects to `aone_simple_signaling_server` via WebSocket.  
