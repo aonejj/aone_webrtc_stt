@@ -32,7 +32,7 @@ For this pilot, transcription results are printed to the console only.
   - websocket (signaling communication)  
   - jansson (JSON parsing)  
   - rnnoise (noise suppression + VAD)  
-  - Android AOSP foundation (Handler, Thread, Time utilities)  
+  - Android AOSP foundation (AMessage, ALooper, sp, ...)  
 - **Shared libraries:**  
   - ZeroMQ (PCM data transport to Python STT server)  
 - **Role:**  
