@@ -1,4 +1,3 @@
-# aone_webrtc_stt
 # aone_webrtc_stt (STT Pilot)
 
 ## Overview
