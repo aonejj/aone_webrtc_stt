@@ -52,6 +52,8 @@ For this pilot, transcription results are printed to the console only.
 ---
 
 ## Architecture
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/5f0586b6-ad2d-46ed-83ca-8cb28f6f5b11" />
+
 Client (WebRTC)
     │
     ▼
