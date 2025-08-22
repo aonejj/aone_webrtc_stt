@@ -70,3 +70,11 @@ For this pilot, transcription results are printed to the console only.
 - ✅ STT output printed to console  
 - ⬜ Future: return transcription results to client (via signaling or DataChannel)
 
+---
+
+## 👨‍💻 Developer
+
+Jungje Jang | Media System Architect  
+✉️ jacques97jj@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/%EC%A4%91%EC%A0%9C-%EC%9E%A5-71a6b010b/)
+
